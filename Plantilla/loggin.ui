@@ -101,7 +101,7 @@
     <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="Label_Error">

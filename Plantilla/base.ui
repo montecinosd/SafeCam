@@ -52,21 +52,35 @@
     <string>Ver Registro de acceso</string>
    </property>
   </widget>
-  <widget class="QLabel" name="MostrarCamara">
+  <widget class="QTreeWidget" name="directorio">
    <property name="geometry">
     <rect>
      <x>50</x>
      <y>90</y>
-     <width>640</width>
-     <height>480</height>
+     <width>641</width>
+     <height>481</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
+   <column>
+    <property name="text">
+     <string>Nombre                                </string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Fecha</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Tipo</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Tamaño</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

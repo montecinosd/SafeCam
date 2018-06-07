@@ -1,2 +1,2 @@
-daniel;daniel123
-ignacio;ignacio123
+daniel;daniel123;1
+ignacio;ignacio123;2
