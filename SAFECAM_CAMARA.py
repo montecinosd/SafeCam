@@ -38,7 +38,7 @@ def save_webcam(outPath,fps,mirror=False):
                 # Mirror the output video frame
                 frame = cv2.flip(frame, 1)
             # Saves for video
-            # out.write(frame)
+            out.write(frame)
 
             # Display el frame resultante
             cv2.imshow('frame', frame)
