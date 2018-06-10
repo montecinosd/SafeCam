@@ -2,8 +2,8 @@
 from PyQt5 import QtWidgets
 import sys
 # from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QDialog, QTreeWidgetItem
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QDialog, QTreeWidgetItem, QLabel
+from PyQt5.QtGui import QIcon, QPixmap
     #
 from PyQt5.uic import loadUi
 import time
@@ -33,6 +33,8 @@ class duenho(Persona):
         self.DireccionComercial = DireccionComercial
 
 class SafeCam(QDialog):
+    def hola2(self):
+        print("hola2")
     def __init__(self):
         super(SafeCam,self).__init__()
 ##      cargo la platilla
@@ -43,35 +45,120 @@ class SafeCam(QDialog):
         r_RegistroAlerta = r+'\RegistroAlerta'
         r_RegistroAcceso = r+'\RegistroAcceso'
         #Para enviar en OpenElement
-        _rutaAuxliar = ''
+        self.rutaAuxiliar = ''
 
-        print("RIUTA AUX"+_rutaAuxliar)
+        print("RIUTA AUX"+self.rutaAuxiliar)
         #Hago los ifs solamente para guardar la ruta y poder abrir las carpetas despues.
-        if(self.BotonRegistroVideo.clicked):
-            print("VIDEO...")
+
+        # if(self.BotonRegistroVideo.clicked):
+        #     print("VIDEO...")
+        #     self.directorio.clear()
+        #
+        #     rutaAuxiliar = ''
+        #     rutaAuxiliar = r_RegistroVideo
+        #     self.BotonRegistroVideo.clicked.connect(self.hola2)
+        #
+        # if(self.BotonRegistoAlertas.clicked):
+        #     self.directorio.clear()
+        #     print("REGISTRO...")
+        #
+        #     rutaAuxiliar = ''
+        #     rutaAuxiliar = r_RegistroAlerta
+        #     self.BotonRegistoAlertas.clicked.connect(lambda: self.getDir(r_RegistroAlerta))
+        # if(self.BotonRegistroAcceso.clicked):
+        #     print("ACCESO...")
+        #     self.directorio.clear()
+        #
+        #     rutaAuxiliar = ''
+        #     rutaAuxiliar = r_RegistroAcceso
+        #     self.BotonRegistroAcceso.clicked.connect(lambda: self.getDir(r_RegistroAcceso))
+        self.BotonRegistroVideo.clicked.connect(lambda: self.RegistroVideo_getDir(r_RegistroVideo))
+        self.BotonRegistoAlertas.clicked.connect(lambda: self.RegistroAlertas_getDir(r_RegistroAlerta))
+        self.BotonRegistroAcceso.clicked.connect(lambda: self.RegistroAcceso_getDir(r_RegistroAcceso))
+        self.directorio.itemDoubleClicked.connect(lambda: self.OpenElement(self.rutaAuxiliar))
+    def RegistroVideo_getDir(self,ruta):
+            #delete filas de lo que estaba
             self.directorio.clear()
+            #ruta nueva
+            dir = ruta
+            for element in listdir(dir):
+                name = element
+                a="\ "
+                a = a[0]
 
-            _rutaAuxliar = ''
-            _rutaAuxliar = r_RegistroVideo
-            self.BotonRegistroVideo.clicked.connect(lambda: self.getDir(r_RegistroVideo))
+                pathinfo = dir + a + name
+                informacion = stat(pathinfo)
+                if path.isdir(pathinfo):
+                    type = "Carpeta de archivos"
+                    size = ""
+                else:
+                    mime = MimeTypes()
+                    type = mime.guess_type(pathinfo)[0]
+                    size = str(informacion.st_size)+"bytes"
+                #Fehca
+                date = str(time.ctime(informacion.st_mtime))
+                #Sobreescribir valor local
+                self.rutaAuxiliar = ruta
+                #array para crear filas
+                row = [name,date,type,size]
+                #insertar filas
+                self.directorio.insertTopLevelItems(0,[QTreeWidgetItem(self.directorio,row)])
 
-        if(self.BotonRegistoAlertas.clicked):
+    def RegistroAlertas_getDir(self,ruta):
+            #delete filas de lo que estaba
             self.directorio.clear()
-            print("REGISTRO...")
+            #ruta nueva
+            dir = ruta
+            for element in listdir(dir):
+                name = element
+                a="\ "
+                a = a[0]
 
-            _rutaAuxliar = ''
-            _rutaAuxliar = r_RegistroAlerta
-            self.BotonRegistoAlertas.clicked.connect(lambda: self.getDir(r_RegistroAlerta))
+                pathinfo = dir + a + name
+                informacion = stat(pathinfo)
+                if path.isdir(pathinfo):
+                    type = "Carpeta de archivos"
+                    size = ""
+                else:
+                    mime = MimeTypes()
+                    type = mime.guess_type(pathinfo)[0]
+                    size = str(informacion.st_size)+"bytes"
+                #Fehca
+                date = str(time.ctime(informacion.st_mtime))
+                #Sobreescribir valor local
+                self.rutaAuxiliar = ruta
+                #array para crear filas
+                row = [name,date,type,size]
+                #insertar filas
+                self.directorio.insertTopLevelItems(0,[QTreeWidgetItem(self.directorio,row)])
 
-        if(self.BotonRegistroAcceso.clicked):
-            print("ACCESO...")
+    def RegistroAcceso_getDir(self,ruta):
+            #delete filas de lo que estaba
             self.directorio.clear()
+            #ruta nueva
+            dir = ruta
+            for element in listdir(dir):
+                name = element
+                a="\ "
+                a = a[0]
 
-            _rutaAuxliar = ''
-            _rutaAuxliar = r_RegistroAcceso
-            self.BotonRegistroAcceso.clicked.connect(lambda: self.getDir(r_RegistroAcceso))
-
-        self.directorio.itemDoubleClicked.connect(lambda: self.OpenElement(_rutaAuxliar))
+                pathinfo = dir + a + name
+                informacion = stat(pathinfo)
+                if path.isdir(pathinfo):
+                    type = "Carpeta de archivos"
+                    size = ""
+                else:
+                    mime = MimeTypes()
+                    type = mime.guess_type(pathinfo)[0]
+                    size = str(informacion.st_size)+"bytes"
+                #Fehca
+                date = str(time.ctime(informacion.st_mtime))
+                #Sobreescribir valor local
+                self.rutaAuxiliar = ruta
+                #array para crear filas
+                row = [name,date,type,size]
+                #insertar filas
+                self.directorio.insertTopLevelItems(0,[QTreeWidgetItem(self.directorio,row)])
     def getDir(self,ruta):
             #delete filas de lo que estaba
             self.directorio.clear()
@@ -93,23 +180,26 @@ class SafeCam(QDialog):
                     size = str(informacion.st_size)+"bytes"
                 #Fehca
                 date = str(time.ctime(informacion.st_mtime))
+                #Sobreescribir valor local
+                self.rutaAuxiliar = ruta
                 #array para crear filas
                 row = [name,date,type,size]
                 #insertar filas
                 self.directorio.insertTopLevelItems(0,[QTreeWidgetItem(self.directorio,row)])
+
     def OpenElement(self,ruta):
         #Obtener item del user
         print("HOLAasdas")
-        _ruta = ruta
+        ruta = self.rutaAuxiliar
         item = self.directorio.currentItem()
         #Crear Ruta(Carpeta o archivo)
         a="\ "
         a = a[0]
-        elemento = _ruta +a+ item.text(0)
+        elemento = ruta +a+ item.text(0)
 
         if path.isdir(elemento):
-            _ruta = elemento
-            self.getDir(_ruta)
+            ruta = elemento
+            self.getDir(ruta)
         else:
             startfile(elemento)
 
@@ -121,8 +211,11 @@ class Login(QDialog):
 ##      cargo la platilla
         loadUi('Plantilla/loggin.ui',self)
 ##      imagen inicial
-        pixmap = QPixmap('Plantilla/Logo_SafeCam.png')
+        pixmap = QPixmap("Imagenes/Logo_SafeCam.png")
         self.image_SafeCam.setPixmap(pixmap)
+
+        self.show()
+
 
         self.Boton_Acceder.clicked.connect(self.onclickBoton_Acceder)
 #Cuando presionamos el boton de acceder, guardamos y comprobamos si existe el usuario
@@ -165,6 +258,7 @@ class Login(QDialog):
 def main():
     app = QtWidgets.QApplication(sys.argv)
     login = Login()
+    login.show()
 
 
     if login.exec_() == QtWidgets.QDialog.Accepted:
